@@ -36,20 +36,12 @@ function onGalleryItemClick(evt) {
 function openModalWindow(url) {
   const instance = basicLightbox.create(`
     <img src="${url}" width="800" height="600">
-`);
+ `);
 
-  instance.show(
-    () => {
-      document.body.classList.add("modal-open");
-    },
-    () => {
-      document.body.classList.remove("modal-open");
-    }
-  );
+  instance.show();
 
   const closeModal = () => {
     instance.close();
-    document.body.classList.remove("modal-open");
   };
 
   document.addEventListener("keydown", (evt) => {
@@ -57,8 +49,4 @@ function openModalWindow(url) {
       closeModal();
     }
   });
-
-  modal.show(() => {
-    document.body.classList.add("modal-open");
-  }, closeModal);
 }
