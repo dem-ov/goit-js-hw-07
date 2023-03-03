@@ -1,52 +1,51 @@
 import { galleryItems } from "./gallery-items.js";
-// Change code below this line
 
-const gallery = document.querySelector(".gallery");
-const galleryItemTemplate = document
-  .querySelector("#gallery-item-template")
-  .innerHTML.trim();
+const galleryRefs = document.querySelector(".gallery");
+galleryRefs.addEventListener("click", onShowBigImage);
 
-const galleryItemsMarkup = createGalleryItemsMarkup(galleryItems);
-
-gallery.insertAdjacentHTML("beforeend", galleryItemsMarkup);
-
-function createGalleryItemsMarkup(items) {
-  return items
-    .map((item) =>
-      galleryItemTemplate.replace(/{{\s*(\w+)\s*}}/g, (match, p1) => item[p1])
-    )
+(function createMarkup() {
+  const itemMarkup = galleryItems
+    .map(({ original, preview, description }) => {
+      return `
+    <div class="gallery__item">
+        <a class="gallery__link" href="${original}">
+            <img
+                class="gallery__image"
+                src="${preview}"
+                data-source="${original}"
+                alt="${description}"
+            />
+        </a>
+    </div>
+    `;
+    })
     .join("");
-}
+  galleryRefs.insertAdjacentHTML("beforeend", itemMarkup);
+})();
 
-gallery.addEventListener("click", onGalleryItemClick);
-
-function onGalleryItemClick(evt) {
-  evt.preventDefault();
-
-  const isGalleryImage = evt.target.classList.contains("gallery__image");
-
-  if (!isGalleryImage) {
+function onShowBigImage(e) {
+  e.preventDefault();
+  if (!e.target.classList.contains("gallery__image")) {
     return;
   }
 
-  const largeImageURL = evt.target.dataset.source;
-  openModalWindow(largeImageURL);
-}
+  let bigImageSrc = e.target.dataset.source;
 
-function openModalWindow(url) {
-  const instance = basicLightbox.create(`
-    <img src="${url}" width="800" height="600">
- `);
+  const modal = basicLightbox.create(
+    `<img src="${bigImageSrc}" width="800" height="600">`,
+  );
 
-  instance.show();
+  modal.show();
 
-  const closeModal = () => {
-    instance.close();
-  };
+  if (modal.visible()) {
+    window.addEventListener("keydown", onPressKeyESC);
+  }
 
-  document.addEventListener("keydown", (evt) => {
-    if (evt.code === "Escape") {
-      closeModal();
+  function onPressKeyESC(e) {
+    if (e.code === "Escape") {
+      modal.close();
+      window.removeEventListener("keydown", onPressKeyESC);
     }
-  });
+  }
+  console.log("key");
 }

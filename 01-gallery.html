@@ -7,32 +7,17 @@
     <title>Image gallery</title>
     <link rel="stylesheet" href="css/common.css" />
     <link rel="stylesheet" href="css/styles.css" />
-     <link
+    <link
       rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/basiclightbox/dist/basicLightbox.min.css"
+      href="https://cdn.jsdelivr.net/npm/basiclightbox@5/dist/basicLightbox.min.css"
     />
   </head>
   <body>
     <p><a href="index.html">Go back</a></p>
 
-   
     <div class="gallery"></div>
-    <script type="text/template" id="gallery-item-template">
-      <div class="gallery__item">
-        <a class="gallery__link" href="{{original}}">
-          <img
-            class="gallery__image"
-            src="{{preview}}"
-            data-source="{{original}}"
-            alt="{{description}}"
-          />
-        </a>
-      </div>
-    </script>
-
-   
-    <script src="https://cdn.jsdelivr.net/npm/basiclightbox/dist/basicLightbox.min.js"></script>
 
     <script src="js/01-gallery.js" type="module"></script>
+    <script src="https://cdn.jsdelivr.net/npm/basiclightbox@5/dist/basicLightbox.min.js"></script>
   </body>
 </html>
